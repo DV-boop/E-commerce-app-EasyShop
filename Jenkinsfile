@@ -47,7 +47,6 @@ pipeline {
                     sonarQubeProjectKey: 'ecom', 
                     sonarQubeProjectName: 'e-commerce', 
                     sonarQubeInstallationName: 'sonarQubeScanner',
-                    sonarQubeScannerHome: "${SONAR_HOME}" 
                 )
             }
         }
