@@ -8,6 +8,10 @@ pipeline {
         DOCKER_MIGRATION_IMAGE = 'dvharsh/easyshop-migration'
         DOCKER_CREDENTIALS = "dockerHubCredentials"
         EMAIL_ADDRESS = "dvharsh9@gmail.com"
+
+        // ✅ Add these two:
+        SONAR_SCANNER_HOME = "/opt/sonar-scanner"
+        PATH = "${SONAR_SCANNER_HOME}/bin:${PATH}"
     }
 
     stages {
@@ -46,7 +50,7 @@ pipeline {
                     sonarQubeTokenName: 'sonarQubeToken', 
                     sonarQubeProjectKey: 'ecom', 
                     sonarQubeProjectName: 'e-commerce', 
-                    sonarQubeInstallationName: 'sonarQubeScanner',
+                    sonarQubeInstallationName: 'sonarQubeScanner'
                 )
             }
         }
