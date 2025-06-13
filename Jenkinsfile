@@ -4,7 +4,6 @@ pipeline {
     agent any
 
     environment {
-        SONAR_HOME = tool "sonarQubeScanner"
         DOCKER_IMAGE = 'dvharsh/easyshop'
         DOCKER_MIGRATION_IMAGE = 'dvharsh/easyshop-migration'
         DOCKER_CREDENTIALS = "dockerHubCredentials"
