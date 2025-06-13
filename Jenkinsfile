@@ -2,15 +2,15 @@
 
 pipeline {
     agent any
-    
+
     environment {
         SONAR_HOME = tool "sonarQubeScanner"
-        DOCKER_IMAGE = 'muhammadabdullahabrar/easyshop' 
-        DOCKER_MIGRATION_IMAGE = 'muhammadabdullahabrar/easyshop-migration' 
+        DOCKER_IMAGE = 'dvharsh/easyshop'
+        DOCKER_MIGRATION_IMAGE = 'dvharsh/easyshop-migration'
         DOCKER_CREDENTIALS = "dockerHubCredentials"
-        EMAIL_ADDRESS = "abdullahabrar4843@gmail.com"
+        EMAIL_ADDRESS = "dvharsh9@gmail.com"
     }
-    
+
     stages {
         stage("Set Build Tags") {
             steps {
@@ -19,24 +19,28 @@ pipeline {
                 }
             }
         }
+
         stage("Clean Workspace") {
             steps {
                 cleanWorkspace()
             }
         }
+
         stage("Code Repository") {
             steps {
                 cloneRepository(
-                    branch: "master",
-                    repoUrl: "https://github.com/Abdullah-0-3/tws-e-commerce-app.git"
+                    branch: "hackathon",
+                    repoUrl: "https://github.com/DV-boop/E-commerce-app-EasyShop.git"
                 )
             }
         }
+
         stage("Trivy File System Scanning") {
             steps {
                 trivyFileSystemScan()
             }
         }
+
         stage("SonarQube Quality Analysis") {
             steps {
                 sonarQubeAnalysis(
@@ -48,6 +52,7 @@ pipeline {
                 )
             }
         }
+
         stage("Docker Image Build") {
             parallel {
                 stage("Build Main Docker Image") {
@@ -70,6 +75,7 @@ pipeline {
                 }
             }
         }
+
         stage("Trivy Image Scanning") {
             steps {
                 trivyImageScan(
@@ -78,6 +84,7 @@ pipeline {
                 )
             }
         }
+
         stage("Push Docker Image") {
             parallel {
                 stage("Pushing Main Docker Image") {
@@ -101,6 +108,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             emailNotification(env.EMAIL_ADDRESS, ['trivy-image-report.txt', 'trivy-fs-report.txt'])
